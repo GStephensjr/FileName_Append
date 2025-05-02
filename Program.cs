@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,36 @@ namespace FileName_Append
     {
         static void Main(string[] args)
         {
+            Program ctx = new Program();   
 
+            Console.WriteLine("Folders or files? " +
+                "\n 1. Files" +
+                "\n 2. Folders");
+            string input = Console.ReadKey().ToString();
+            switch (input)
+            {
+                case "1":
+                    ctx.AppendToFileNames();
+                break;
+                case "2":
+                    ctx.RemoveFromFolderName();
+                break;
+                default:
+                Console.WriteLine();
+                Console.Clear();
+                Main(args);
+                break;
+            }
+
+
+
+
+
+
+        }
+
+        public void AppendToFileNames()
+        {
             Console.WriteLine("Please input directory address: ");
             string directory = Console.ReadLine();
             List<string> files = Directory.GetFiles(directory).ToList();
@@ -28,6 +58,29 @@ namespace FileName_Append
 
             Console.WriteLine("//////////////");
             List<string> newFiles = Directory.GetFiles(directory).ToList();
+            newFiles.ForEach(file => Console.WriteLine(file));
+        }
+
+        public void RemoveFromFolderName()
+        {
+            Console.WriteLine("Please input directory address: ");
+            string directory = Console.ReadLine();
+            List<string> files = Directory.GetDirectories(directory).ToList();
+            files.ForEach(file => Console.WriteLine(file));
+
+            Console.WriteLine("What would you like to remove from these folder names?");
+            string toBeRemoved = Console.ReadLine();
+
+            files.ForEach(file =>
+            {
+                DirectoryInfo info = new DirectoryInfo(file);
+                Console.WriteLine(file.Replace(toBeRemoved, ""));
+                //Directory.Move(file, file.Replace("", ""));
+                info.MoveTo(file.Replace(toBeRemoved, ""));
+            });
+
+            Console.WriteLine("//////////////");
+            List<string> newFiles = Directory.GetDirectories(directory).ToList();
             newFiles.ForEach(file => Console.WriteLine(file));
         }
     }
