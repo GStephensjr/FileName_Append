@@ -12,25 +12,27 @@ namespace FileName_Append
     {
         static void Main(string[] args)
         {
-            Program ctx = new Program();   
+            Program ctx = new Program();
+            //ctx.AppendToFileNames();
 
             Console.WriteLine("Folders or files? " +
                 "\n 1. Files" +
                 "\n 2. Folders");
-            string input = Console.ReadKey().ToString();
+            char input = Console.ReadKey(true).KeyChar;
             switch (input)
             {
-                case "1":
+                case '1':
                     ctx.AppendToFileNames();
-                break;
-                case "2":
+                    break;
+                case '2':
                     ctx.RemoveFromFolderName();
-                break;
+                    break;
                 default:
-                Console.WriteLine();
-                Console.Clear();
-                Main(args);
-                break;
+                    Console.WriteLine("invalid input");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Main(args);
+                    break;
             }
 
 
