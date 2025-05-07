@@ -19,6 +19,7 @@ namespace FileName_Append
                 "\n 1. Files" +
                 "\n 2. Folders");
             char input = Console.ReadKey(true).KeyChar;
+            Console.WriteLine("\n \n");
             switch (input)
             {
                 case '1':
