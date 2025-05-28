@@ -17,7 +17,8 @@ namespace FileName_Append
 
             Console.WriteLine("Folders or files? " +
                 "\n 1. Files" +
-                "\n 2. Folders");
+                "\n 2. Folders" +
+                "\n 3. Close");
             char input = Console.ReadKey(true).KeyChar;
             Console.WriteLine("\n \n");
             switch (input)
@@ -27,6 +28,8 @@ namespace FileName_Append
                     break;
                 case '2':
                     ctx.RemoveFromFolderName();
+                    break;
+                case '3':
                     break;
                 default:
                     Console.WriteLine("invalid input");
@@ -62,6 +65,8 @@ namespace FileName_Append
             Console.WriteLine("//////////////");
             List<string> newFiles = Directory.GetFiles(directory).ToList();
             newFiles.ForEach(file => Console.WriteLine(file));
+
+            Reset();
         }
 
         public void RemoveFromFolderName()
@@ -85,6 +90,16 @@ namespace FileName_Append
             Console.WriteLine("//////////////");
             List<string> newFiles = Directory.GetDirectories(directory).ToList();
             newFiles.ForEach(file => Console.WriteLine(file));
+
+            Reset();
+        }
+        public void Reset()
+        {
+            Console.WriteLine(  "press any button to continue...");
+            var input = Console.ReadKey();
+            Console.Clear();
+            string[] args = new string[] { };
+            Main(args);
         }
     }
 }
