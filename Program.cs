@@ -39,59 +39,70 @@ namespace FileName_Append
                     break;
             }
 
-
-
-
-
-
         }
 
         public void AppendToFileNames()
         {
-            Console.WriteLine("Please input directory address: ");
-            string directory = Console.ReadLine();
-            List<string> files = Directory.GetFiles(directory).ToList();
-            files.ForEach(file => Console.WriteLine(file));
-
-            Console.WriteLine("What would you like to append to these filenames?");
-            string appendage = Console.ReadLine();
-
-            files.ForEach(file =>
+            try
             {
-                FileInfo currentFile = new FileInfo(file);
-                currentFile.MoveTo(currentFile.Directory.FullName + "\\" + Path.GetFileNameWithoutExtension(file) + " - " + appendage + currentFile.Extension);
-            });
+                Console.WriteLine("Please input directory address: ");
+                string directory = Console.ReadLine();
+                List<string> files = Directory.GetFiles(directory).ToList();
+                files.ForEach(file => Console.WriteLine(file));
 
-            Console.WriteLine("//////////////");
-            List<string> newFiles = Directory.GetFiles(directory).ToList();
-            newFiles.ForEach(file => Console.WriteLine(file));
+                Console.WriteLine("What would you like to append to these filenames?");
+                string appendage = Console.ReadLine();
 
-            Reset();
+                files.ForEach(file =>
+                {
+                    FileInfo currentFile = new FileInfo(file);
+                    currentFile.MoveTo(currentFile.Directory.FullName + "\\" + Path.GetFileNameWithoutExtension(file) + " - " + appendage + currentFile.Extension);
+                });
+
+                Console.WriteLine("//////////////");
+                List<string> newFiles = Directory.GetFiles(directory).ToList();
+                newFiles.ForEach(file => Console.WriteLine(file));
+
+                Reset();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Reset();
+            }
         }
 
         public void RemoveFromFolderName()
         {
-            Console.WriteLine("Please input directory address: ");
-            string directory = Console.ReadLine();
-            List<string> files = Directory.GetDirectories(directory).ToList();
-            files.ForEach(file => Console.WriteLine(file));
-
-            Console.WriteLine("What would you like to remove from these folder names?");
-            string toBeRemoved = Console.ReadLine();
-
-            files.ForEach(file =>
+            try 
             {
-                DirectoryInfo info = new DirectoryInfo(file);
-                Console.WriteLine(file.Replace(toBeRemoved, ""));
-                //Directory.Move(file, file.Replace("", ""));
-                info.MoveTo(file.Replace(toBeRemoved, ""));
-            });
+                Console.WriteLine("Please input directory address: ");
+                string directory = Console.ReadLine();
+                List<string> files = Directory.GetDirectories(directory).ToList();
+                files.ForEach(file => Console.WriteLine(file));
 
-            Console.WriteLine("//////////////");
-            List<string> newFiles = Directory.GetDirectories(directory).ToList();
-            newFiles.ForEach(file => Console.WriteLine(file));
+                Console.WriteLine("What would you like to remove from these folder names?");
+                string toBeRemoved = Console.ReadLine();
 
-            Reset();
+                files.ForEach(file =>
+                {
+                    DirectoryInfo info = new DirectoryInfo(file);
+                    Console.WriteLine(file.Replace(toBeRemoved, ""));
+                    //Directory.Move(file, file.Replace("", ""));
+                    info.MoveTo(file.Replace(toBeRemoved, ""));
+                });
+
+                Console.WriteLine("//////////////");
+                List<string> newFiles = Directory.GetDirectories(directory).ToList();
+                newFiles.ForEach(file => Console.WriteLine(file));
+
+                Reset();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Reset();
+            }
         }
         public void Reset()
         {
