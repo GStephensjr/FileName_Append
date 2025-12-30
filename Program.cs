@@ -18,7 +18,8 @@ namespace FileName_Append
             Console.WriteLine("Folders or files? " +
                 "\n 1. Files" +
                 "\n 2. Folders" +
-                "\n 3. Close");
+                "\n 3. Mass File Append" +
+                "\n 4. Close");
             char input = Console.ReadKey(true).KeyChar;
             Console.WriteLine("\n \n");
             switch (input)
@@ -30,6 +31,9 @@ namespace FileName_Append
                     ctx.RemoveFromFolderName();
                     break;
                 case '3':
+                    ctx.MassFileAppend();
+                    break;
+                case '4':
                     break;
                 default:
                     Console.WriteLine("invalid input");
@@ -39,6 +43,40 @@ namespace FileName_Append
                     break;
             }
 
+        }
+
+        private void MassFileAppend()
+        {
+            Console.WriteLine("Please input directory address: ");
+            string rootDirectory = Console.ReadLine();
+
+            Console.WriteLine("Please input name of the author");
+            string author = Console.ReadLine();
+
+            if (!Directory.Exists(rootDirectory))
+                throw new DirectoryNotFoundException($"Directory not found: {rootDirectory}");
+
+            foreach (var folder in Directory.GetDirectories(rootDirectory))
+            {
+                string parentFolderName = new DirectoryInfo(folder).Name;
+
+                foreach (var file in Directory.GetFiles(folder))
+                {
+                    var fileInfo = new FileInfo(file);
+
+                    string newFileName =
+                        $"{Path.GetFileNameWithoutExtension(fileInfo.Name)} - {parentFolderName} - {author}{fileInfo.Extension}";
+
+                    string newFilePath = Path.Combine(folder, newFileName);
+
+                    // Prevent overwrite
+                    if (!File.Exists(newFilePath))
+                    {
+                        File.Move(fileInfo.FullName, newFilePath);
+                    }
+                }
+            }
+            Reset();
         }
 
         public void AppendToFileNames()
